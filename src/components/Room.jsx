@@ -79,8 +79,8 @@ function Room({ data }) {
           Logout
         </button>
       </div>
-      <div className="session-layer debug">
-        <div className="room-body debug">
+      <div className="session-layer">
+        <div className="room-body">
           {session
             .filter((session) => session.sender_created !== null)
             .sort((a, b) => a.sender_created.seconds - b.sender_created.seconds)
