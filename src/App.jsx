@@ -13,7 +13,7 @@ import "./App.css";
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // Add loading state
+  const [isLoading, setIsLoading] = useState(true); 
   const [getUser, setUser] = useState(null);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function App() {
         setIsLoggedIn(false);
         setUser(null);
       }
-      setIsLoading(false); // Mark authentication check as complete
+      setIsLoading(false); 
     });
 
     return () => unsubscribe();
@@ -39,7 +39,6 @@ export default function App() {
     setIsLoggedIn(false);
   };
 
-  // Render loading spinner or indicator while authentication check is in progress
   if (isLoading) {
     return <div>Loading...</div>;
   }
