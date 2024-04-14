@@ -37,6 +37,10 @@ body {
   color: white;
 }
 
+.black-color {
+  color: black;
+}
+
 .red-color {
   color: red;
 }
@@ -147,8 +151,10 @@ body {
   height: 80vh;
 }
 
-.home-layer {
+.home-layer,
+.session-layer {
   padding-top: 50px;
+  padding-bottom: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -173,8 +179,17 @@ body {
   width: 60%;
   border: 2px solid rgba(0, 0, 0, 0.125);
   border-radius: 20px;
-  height: 10vh;
+  height: 20vh;
   padding: 50px;
+}
+
+.session {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  width: 80vh;
+  height: 10vh;
 }
 
 .header {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { signOut } from "firebase/auth";
 import { auth, db } from "../configs/configs";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import DefaultIcon from "../assets/user.png";
 import { collection, serverTimestamp, addDoc } from "firebase/firestore";
 import { getDocs } from "firebase/firestore";
@@ -41,6 +41,7 @@ function Home({ data }) {
         room_desc: desc,
         room_created: timestamp,
         state: state,
+        userId: auth?.currentUser?.uid,
       });
 
       const roomSnapshot = await getDocs(roomCollectionRef);
@@ -112,7 +113,11 @@ function Home({ data }) {
         </div>
         <div className="room-body">
           {roomList.map((room) => (
-            <div key={room.id} className="room-cards">
+            <Link
+              className="room-cards t-deco-none black-color"
+              to={`/Room/${room.id}`}
+              key={room.id}
+            >
               <label
                 style={{ color: room.state ? "green" : "red" }}
                 className="font-primary"
@@ -123,7 +128,7 @@ function Home({ data }) {
               <label className="font-primary">
                 {new Date(room.room_created.seconds * 1000).toLocaleString()}
               </label>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

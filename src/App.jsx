@@ -10,10 +10,11 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
 import "./App.css";
+import Room from "./components/Room.jsx";
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); 
+  const [isLoading, setIsLoading] = useState(true);
   const [getUser, setUser] = useState(null);
 
   useEffect(() => {
@@ -25,7 +26,7 @@ export default function App() {
         setIsLoggedIn(false);
         setUser(null);
       }
-      setIsLoading(false); 
+      setIsLoading(false);
     });
 
     return () => unsubscribe();
@@ -49,10 +50,13 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/" element={<Login onLogin={handleLogin} />} />
         {isLoggedIn ? (
-          <Route
-            path="/Home"
-            element={<Home data={getUser} onLogout={handleLogout} />}
-          />
+          <>
+            <Route
+              path="/Home"
+              element={<Home data={getUser} onLogout={handleLogout} />}
+            />
+            <Route path="/Room/:session_id" element={<Room data={getUser} />} />
+          </>
         ) : (
           <Route path="*" element={<Navigate to="/" />} />
         )}
