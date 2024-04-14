@@ -49,10 +49,10 @@ function Login({ onLogin }) {
     <>
       <div className="login-layer">
         <div className="card-form">
-          <label className="font-primary font-size-header mt-2">
+          <label className="font-primary white-color font-size-header mt-2">
             Listening <label className="black-bg white-color">Party</label>
           </label>
-          <label className="font-primary font-size-body font-size-subheader mt-2">
+          <label className="font-primary white-color font-size-body font-size-subheader mt-2 mb-1">
             Login
           </label>
           <input
@@ -80,9 +80,13 @@ function Login({ onLogin }) {
             <img className="btn-icons" src={GoogleIcon} />
             Sign In With Google
           </button>
-          <label className="font-primary font-size-body">
+          <label className="font-primary white-color font-size-body">
             No Account?{" "}
-            <a className="t-deco-none" href="" onClick={redirectRegister}>
+            <a
+              className="t-deco-none red-color"
+              href=""
+              onClick={redirectRegister}
+            >
               Register Here
             </a>
           </label>

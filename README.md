@@ -1,4 +1,4 @@
-# Listening Party Using React + Firebase + Spotify API
+# Listening Party Using React + Firebase + ~~Spotify API~~ Youtube API
 
 ## Room Listening Party
 
@@ -9,3 +9,4 @@
 - npm install firebase
 - npm install react-router-dom
 - npm install
+- npm install axios

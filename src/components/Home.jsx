@@ -9,6 +9,7 @@ import { useEffect } from "react";
 
 function Home({ data }) {
   const navigate = useNavigate();
+  const isHomePage = window.location.pathname === "/Home";
 
   const [roomList, setRoomList] = useState([]);
   const [name, setName] = useState("");
@@ -66,38 +67,46 @@ function Home({ data }) {
 
   return (
     <>
-      <div className="header">
-        <div className="user-details mt-1">
+      <header>
+        <div className="user-details mt-sm-5">
           {data && data.photoURL ? (
             <img className="user-pfp" src={data.photoURL} alt="User Profile" />
           ) : (
             <img className="user-pfp" src={DefaultIcon} alt="Custom Image" />
           )}
-          <label className="font-primary font-size-subheader ms-2">
+          <label className="font-primary white-color font-size-subheader ms-2">
             {data && data.displayName
               ? data.displayName
               : data && data.email && data.email.split("@")[0]}
           </label>
         </div>
-        <label id="welcome-label" className="font-primary font-size-subheader">
-          Welcome! Select A Room
-        </label>
-        <button className="logout-btn" onClick={logout}>
-          Logout
-        </button>
-      </div>
+        <nav className="nav-bar">
+          <ul>
+            <li>
+              <Link to="/Home" className={isHomePage ? "active" : ""}>
+                Room List
+              </Link>
+            </li>
+            <li>
+              <a onClick={logout}>Logout</a>
+            </li>
+          </ul>
+        </nav>
+      </header>
       <div className="home-layer">
-        <label className="font-primary font-size-subheader">
-          Create a New Room Instead!
+        <label className="font-primary white-color font-size-subheader">
+          Create a New Room
         </label>
         <div className="mt-2">
           <input
             type="text"
+            className="input-textbox me-1"
             placeholder="Room Name"
             onChange={(e) => setName(e.target.value)}
           />
           <input
             type="text"
+            className="input-textbox me-1"
             placeholder="Room Description"
             onChange={(e) => setDesc(e.target.value)}
           />
@@ -108,7 +117,7 @@ function Home({ data }) {
             onChange={(e) => setState(e.target.value)}
           />
           <button onClick={onCreateRoom} className="create-btn">
-            Create Room
+            Create
           </button>
         </div>
         <div className="room-body">
@@ -124,8 +133,10 @@ function Home({ data }) {
               >
                 {room.room_name}
               </label>
-              <label className="font-primary">{room.room_desc}</label>
-              <label className="font-primary">
+              <label className="font-primary white-color">
+                {room.room_desc}
+              </label>
+              <label className="font-primary white-color">
                 {new Date(room.room_created.seconds * 1000).toLocaleString()}
               </label>
             </Link>
