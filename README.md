@@ -10,3 +10,5 @@
 - npm install react-router-dom
 - npm install
 - npm install axios
+
+### spotify is paid lmao
