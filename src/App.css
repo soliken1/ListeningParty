@@ -1,3 +1,9 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
   background-color: #faf9f6;
 }
@@ -37,6 +43,10 @@ body {
 
 .mt-2 {
   margin-bottom: 20px;
+}
+
+.ms-2 {
+  margin-left: 20px;
 }
 
 .card-form {
@@ -114,6 +124,12 @@ body {
   margin-right: 20px;
 }
 
+.user-pfp {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+}
+
 .login-layer {
   padding-top: 50px;
   display: flex;
@@ -121,4 +137,60 @@ body {
   align-items: center;
   justify-content: center;
   height: 80vh;
+}
+
+.home-layer {
+  padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 80vh;
+}
+
+.room-body {
+  padding: 50px;
+  height: 80vh;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.room-cards {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 60%;
+  border: 2px solid rgba(0, 0, 0, 0.125);
+  border-radius: 20px;
+  height: 10vh;
+  padding: 50px;
+}
+
+.header {
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px 20px;
+}
+
+.logout-btn {
+  position: absolute;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  text-decoration: none;
+  width: 100px;
+  height: 25px;
+  border-radius: 10px;
+  cursor: pointer;
+  right: 50px;
+  top: 20px;
+}
+
+.debug {
+  border: 1px solid red;
 }
