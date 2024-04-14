@@ -24,6 +24,7 @@ function Room({ data }) {
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
+  const [visibility, setVisibility] = useState(true);
 
   const searchSong = async () => {
     try {
@@ -48,9 +49,13 @@ function Room({ data }) {
     searchSong();
   };
 
+  const handleHideFooter = () => {
+    setVisibility(!visibility);
+  };
+
   const handleVideoSelect = async (video) => {
     try {
-      await setDoc(doc(db, "music_room", session_id), {
+      await setDoc(doc(db, "current_playing", session_id), {
         selectedVideo: video,
         userId: auth?.currentUser?.uid,
       });
@@ -60,12 +65,15 @@ function Room({ data }) {
   };
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(doc(db, "music_room", session_id), (doc) => {
-      if (doc.exists()) {
-        const roomData = doc.data();
-        setSelectedVideo(roomData.selectedVideo);
+    const unsubscribe = onSnapshot(
+      doc(db, "current_playing", session_id),
+      (doc) => {
+        if (doc.exists()) {
+          const roomData = doc.data();
+          setSelectedVideo(roomData.selectedVideo);
+        }
       }
-    });
+    );
 
     return () => unsubscribe();
   }, [session_id]);
@@ -211,29 +219,35 @@ function Room({ data }) {
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search Song Here"
               />
-              <button className="send-btn" onClick={searchSong}>
+              <button className="send-btn me-1" onClick={searchSong}>
                 Search
+              </button>
+              <button className="toggle-footer" onClick={handleHideFooter}>
+                {visibility ? "Hide Result" : "Show Result"}
               </button>
             </form>
           </div>
         </div>
-        <div className="footer">
-          {searchResults &&
-            searchResults.map((video) => (
-              <div
-                className="footer-cards"
-                key={video.id.videoId}
-                onClick={() => handleVideoSelect(video)}
-              >
-                <label className="font-primary">{video.snippet.title}</label>
-                <p>{video.snippet.description}</p>
-                <img
-                  src={video.snippet.thumbnails.medium.url}
-                  alt={video.snippet.title}
-                />
-              </div>
-            ))}
-        </div>
+        {visibility && (
+          <div className="footer">
+            {searchResults &&
+              searchResults.map((video) => (
+                <div
+                  className="footer-cards"
+                  key={video.id.videoId}
+                  onClick={() => handleVideoSelect(video)}
+                >
+                  <label className="font-primary white-color mb-2">
+                    {video.snippet.title}
+                  </label>
+                  <img
+                    src={video.snippet.thumbnails.medium.url}
+                    alt={video.snippet.title}
+                  />
+                </div>
+              ))}
+          </div>
+        )}
       </div>
     </>
   );

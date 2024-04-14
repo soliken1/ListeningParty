@@ -87,6 +87,14 @@ body {
   transition: 0.2s ease;
 }
 
+.toggle-footer {
+  width: 150px;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  transition: 0.2s ease;
+}
+
 .input-textbox:focus {
   outline: none;
   border-width: 1px;
@@ -264,6 +272,8 @@ header ul li a:hover {
   padding: 20px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  text-align: center;
   border-radius: 20px;
   background-color: #8b8b8b;
 }
@@ -380,6 +390,10 @@ header ul li a:hover {
   margin-bottom: 10px;
 }
 
+.mb-2 {
+  margin-bottom: 20px;
+}
+
 .me-1 {
   margin-right: 10px;
 }
@@ -393,6 +407,6 @@ header ul li a:hover {
 }
 
 .force-center {
-  width: 400px;
-  transform: translate(50%, 0);
+  width: 600px;
+  transform: translate(25%, 0);
 }
