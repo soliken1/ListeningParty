@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import DefaultIcon from "../assets/user.png";
 
 function Header({ data, isHomePage, isNavActive, toggleNav, logout }) {
   return (

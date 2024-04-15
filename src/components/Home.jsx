@@ -2,7 +2,6 @@ import { useState } from "react";
 import { signOut } from "firebase/auth";
 import { auth, db } from "../configs/configs";
 import { useNavigate, Link } from "react-router-dom";
-import DefaultIcon from "../assets/user.png";
 import { collection, serverTimestamp, addDoc } from "firebase/firestore";
 import { getDocs } from "firebase/firestore";
 import { useEffect } from "react";

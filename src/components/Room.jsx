@@ -1,8 +1,7 @@
-import DefaultIcon from "../assets/user.png";
 import { useState, useEffect } from "react";
 import { signOut } from "firebase/auth";
 import { auth, db } from "../configs/configs";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   collection,
   serverTimestamp,
