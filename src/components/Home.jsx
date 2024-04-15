@@ -5,22 +5,39 @@ import { useNavigate, Link } from "react-router-dom";
 import { collection, serverTimestamp, addDoc } from "firebase/firestore";
 import { getDocs } from "firebase/firestore";
 import { useEffect } from "react";
-import Header from "./Header";
+import Header from "./Header.jsx";
 
 function Home({ data }) {
   const navigate = useNavigate();
   const isHomePage = window.location.pathname === "/Home";
 
   const [roomList, setRoomList] = useState([]);
+  const [currentPlay, setCurrentPlay] = useState([]);
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [state, setState] = useState(true);
 
   const [isNavActive, setIsNavActive] = useState(false);
-
   const toggleNav = () => {
     setIsNavActive(!isNavActive);
   };
+
+  useEffect(() => {
+    const getCurrentPlay = async () => {
+      try {
+        const currentCollectionRef = collection(db, "current_playing");
+        const currentSnapshot = await getDocs(currentCollectionRef);
+        const currentData = currentSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setCurrentPlay(currentData);
+      } catch (error) {
+        console.error("Error getting current playing: ", error);
+      }
+    };
+    getCurrentPlay();
+  }, []);
 
   useEffect(() => {
     const getRoomList = async () => {
@@ -84,7 +101,7 @@ function Home({ data }) {
         <label className="font-primary white-color font-size-subheader">
           Create a New Room
         </label>
-        <div className="mt-2">
+        <div className="create-div mt-2">
           <input
             type="text"
             className="input-textbox me-1"
@@ -103,31 +120,53 @@ function Home({ data }) {
             value={state}
             onChange={(e) => setState(e.target.value)}
           />
-          <button onClick={onCreateRoom} className="create-btn">
+          <button onClick={onCreateRoom} className="create-btn cursor-pointer">
             Create
           </button>
         </div>
+
         <div className="room-body">
-          {roomList.map((room) => (
-            <Link
-              className="room-cards t-deco-none black-color"
-              to={`/Room/${room.id}`}
-              key={room.id}
-            >
-              <label
-                style={{ color: room.state ? "green" : "red" }}
-                className="font-primary"
+          {roomList.map((room) => {
+            const currentVideo = currentPlay.find(
+              (video) => video.id === room.id
+            );
+            return (
+              <Link
+                className="room-cards t-deco-none white-color"
+                to={`/Room/${room.id}`}
+                key={room.id}
               >
-                {room.room_name}
-              </label>
-              <label className="font-primary white-color">
-                {room.room_desc}
-              </label>
-              <label className="font-primary white-color">
-                {new Date(room.room_created.seconds * 1000).toLocaleString()}
-              </label>
-            </Link>
-          ))}
+                <div className="card-wrapper">
+                  <div className="child-1">
+                    <img
+                      className="card-thumbnail"
+                      src={
+                        currentVideo.selectedVideo.snippet.thumbnails.high.url
+                      }
+                    />
+                  </div>
+                  <div className="child-2 mt-2">
+                    <label className="font-primary font-bold font-size-subheader">
+                      {room.room_name}
+                    </label>
+                    <label className="font-primary white-color">
+                      {room.room_desc}
+                    </label>
+                    {currentVideo && (
+                      <label className="text-center font-primary">
+                        {currentVideo.selectedVideo.snippet.title}
+                      </label>
+                    )}
+                    <label className="font-primary gray-color font-size-body">
+                      {new Date(
+                        room.room_created.seconds * 1000
+                      ).toLocaleString()}
+                    </label>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </>

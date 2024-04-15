@@ -13,7 +13,7 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import youtube from "../api/youtube.js";
-import Header from "./Header";
+import Header from "./Header.jsx";
 
 function Room({ data }) {
   const { session_id } = useParams();
@@ -60,7 +60,13 @@ function Room({ data }) {
     searchSong();
   };
 
+  const onSubmitMessage = (event) => {
+    event.preventDefault();
+    onCreateMessage(event.target.value);
+  };
+
   const handleHideFooter = () => {
+    event.preventDefault();
     setVisibility(!visibility);
   };
 
@@ -100,7 +106,6 @@ function Room({ data }) {
       }));
       setSession(messages);
     });
-
     return () => unsubscribe();
   }, [session_id]);
 
@@ -145,6 +150,9 @@ function Room({ data }) {
       <div className="wrapper mt-4">
         <div className="side">
           <div className="session-body">
+            <label className=" position-absolute force-header white-color font-primary font-size-subheader font-bold">
+              Start Chatting
+            </label>
             {session
               .filter((session) => session.sender_created !== null)
               .sort(
@@ -153,7 +161,7 @@ function Room({ data }) {
               .map((session) => (
                 <div key={session.id}>
                   <div className="session">
-                    <label className="font-primary white-color font-size-body">
+                    <label className="font-primary gray-color font-size-body">
                       {session.sender_created
                         ? new Date(
                             session.sender_created.seconds * 1000
@@ -171,31 +179,29 @@ function Room({ data }) {
               ))}
           </div>
           <div>
-            <input
-              type="text"
-              className="send-txt-box mt-1 me-1"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Message Here"
-            />
-            <button className="send-btn" onClick={onCreateMessage}>
-              Send
-            </button>
+            <form onSubmit={onSubmitMessage}>
+              <input
+                type="text"
+                className="send-txt-box mt-1 me-1"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Message Here"
+                required
+              />
+              <button className="send-btn">Send</button>
+            </form>
           </div>
         </div>
         <div className="main">
           <div className="session-body">
             {selectedVideo && (
               <div className="current-playing">
-                <label className="white-color text-center font-primary font-size-subheader">
+                <label className="white-color text-center font-primary font-size-subheader mb-2">
                   {selectedVideo.snippet.title}
                 </label>
-                <label className="white-color text-center font-primary font-size-body mb-2">
-                  {selectedVideo.snippet.description}
-                </label>
                 <iframe
-                  width="560"
-                  height="315"
+                  width="610"
+                  height="355"
                   src={`https://www.youtube.com/embed/${selectedVideo.id.videoId}?autoplay=1`}
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -212,15 +218,17 @@ function Room({ data }) {
           <form onSubmit={onSubmit}>
             <input
               type="text"
-              className="send-txt-box mt-1 me-1"
+              className="search-box mt-1 me-1"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search Song Here"
+              required
             />
-            <button className="send-btn me-1" onClick={searchSong}>
-              Search
-            </button>
-            <button className="toggle-footer" onClick={handleHideFooter}>
+            <button className="send-btn me-1 font-primary">Search</button>
+            <button
+              className="toggle-footer font-primary"
+              onClick={handleHideFooter}
+            >
               {visibility ? "Hide Result" : "Show Result"}
             </button>
           </form>
@@ -234,13 +242,17 @@ function Room({ data }) {
                   key={video.id.videoId}
                   onClick={() => handleVideoSelect(video)}
                 >
-                  <label className="font-primary white-color mb-2">
-                    {video.snippet.title}
-                  </label>
                   <img
                     src={video.snippet.thumbnails.medium.url}
                     alt={video.snippet.title}
+                    className="mb-2 thumbnails"
                   />
+                  <label className="font-primary white-color mb-1">
+                    {video.snippet.title}
+                  </label>
+                  <label className="font-primary gray-color">
+                    {video.snippet.channelTitle}
+                  </label>
                 </div>
               ))}
           </div>

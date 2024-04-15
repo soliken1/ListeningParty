@@ -137,7 +137,15 @@ body {
 }
 
 .send-txt-box {
-  width: 250px;
+  width: 150px;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  transition: 0.2s ease;
+}
+
+.search-box {
+  width: 320px;
   padding: 0.5rem 1rem;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
@@ -148,13 +156,23 @@ body {
   outline: none;
 }
 
+.search-box:focus {
+  outline: none;
+}
+
 .send-btn,
 .create-btn {
-  width: 100px;
+  width: 80px;
   padding: 0.5rem 1rem;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
   transition: 0.2s ease;
+}
+
+.send-btn:hover,
+.create-btn:hover {
+  background-color: #f1432c;
+  color: white;
 }
 
 .toggle-footer {
@@ -163,6 +181,11 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
   transition: 0.2s ease;
+}
+
+.toggle-footer:hover {
+  background-color: #f1432c;
+  color: white;
 }
 
 .input-textbox:focus {
@@ -233,9 +256,18 @@ body {
   padding-top: 50px;
   padding-bottom: 50px;
   display: flex;
+  flex-wrap: nowrap;
   flex-direction: column;
   align-items: center;
   height: 100%;
+}
+
+.create-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
 }
 
 .room-body {
@@ -259,32 +291,37 @@ body {
 }
 
 .room-cards {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
   width: 60%;
   border: 2px solid rgba(0, 0, 0, 0.125);
   border-radius: 20px;
-  height: 10vh;
+  height: 100%;
   padding: 50px;
-  background-color: #8b8b8b;
+}
+
+.room-cards:hover {
+  background-color: #f1432c;
+  transition: 0.5s ease;
+  cursor: pointer;
 }
 
 .session {
   display: flex;
   flex-direction: column;
-  width: 300px;
-  height: 10vh;
+  width: 230px;
+  height: auto;
   padding: 10px;
   border-radius: 10px;
   gap: 5px;
-  background-color: #8b8b8b;
+}
+
+.session:hover {
+  background-color: rgba(0, 0, 0, 0.125);
+  transition: 0.5s ease;
 }
 
 header {
   width: 100%;
-  height: 10vh;
+  height: 65px;
   background-color: #282828;
   display: flex;
   align-items: center;
@@ -324,11 +361,20 @@ header ul li a:hover {
   border-radius: 20px;
 }
 
+.side-2 {
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
 .side {
   height: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-radius: 10px;
 }
 
 .main {
@@ -342,6 +388,7 @@ header ul li a:hover {
   overflow-y: auto;
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
   flex-wrap: nowrap;
   gap: 50px;
 }
@@ -351,9 +398,22 @@ header ul li a:hover {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  text-align: center;
+  text-align: start;
   border-radius: 20px;
-  background-color: #8b8b8b;
+  transition: 0.5s ease;
+  width: 310px;
+}
+
+.footer-cards:hover {
+  background-color: #f1432c;
+  border-radius: 20px;
+}
+
+.thumbnails {
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 .current-playing {
@@ -362,6 +422,14 @@ header ul li a:hover {
   align-items: center;
   gap: 10px;
 }
+
+.loading-screen {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .user-details {
   position: absolute;
   left: 20px;
@@ -381,7 +449,7 @@ header ul li a:hover {
 
 @media all and (min-width: 800px) {
   .main {
-    flex: 2;
+    flex: 3;
   }
   .main {
     order: 2;
@@ -389,8 +457,14 @@ header ul li a:hover {
   .side {
     order: 1;
   }
-  .footer {
+
+  .side-2 {
     order: 3;
+    max-width: 200px;
+  }
+
+  .footer {
+    order: 4;
   }
 }
 
@@ -401,8 +475,19 @@ header ul li a:hover {
 }
 
 /*Utility Classes*/
+.position-absolute {
+  position: absolute;
+}
 .font-primary {
   font-family: sans-serif;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.font-bold {
+  font-weight: bold;
 }
 
 .font-size-body {
@@ -429,6 +514,10 @@ header ul li a:hover {
 
 .white-color {
   color: white;
+}
+
+.gray-color {
+  color: gray;
 }
 
 .black-color {
@@ -492,6 +581,10 @@ header ul li a:hover {
   transform: translate(25%, 0);
 }
 
+.force-header {
+  transform: translate(0, -125%);
+}
+
 .error-absolute {
   position: absolute;
   top: -40px;
@@ -501,4 +594,52 @@ header ul li a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.card-wrapper {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.card-wrapper > * {
+  display: flex;
+  flex-flow: nowrap;
+}
+
+.card-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.child-1 {
+  height: 100%;
+}
+
+.child-2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 30px;
+  width: 100%;
+  gap: 20px;
+}
+
+@media all and (min-width: 800px) {
+  .child-2 {
+    flex: 3;
+  }
+  .child-1 {
+    order: 1;
+  }
+  .child-2 {
+    order: 2;
+  }
+}
+
+@media all and (min-width: 600px) {
+  .child-1 {
+    flex: 1;
+  }
 }
