@@ -79,11 +79,7 @@ function Register() {
           </button>
           <label className="font-primary white-color font-size-body">
             Already Have An Account?{" "}
-            <a
-              className="t-deco-none red-color"
-              href=""
-              onClick={redirectLogin}
-            >
+            <a className="t-deco-none red-color" onClick={redirectLogin}>
               Login Here
             </a>
           </label>
