@@ -6,6 +6,7 @@ import DefaultIcon from "../assets/user.png";
 import { collection, serverTimestamp, addDoc } from "firebase/firestore";
 import { getDocs } from "firebase/firestore";
 import { useEffect } from "react";
+import Header from "./Header";
 
 function Home({ data }) {
   const navigate = useNavigate();
@@ -15,6 +16,12 @@ function Home({ data }) {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [state, setState] = useState(true);
+
+  const [isNavActive, setIsNavActive] = useState(false);
+
+  const toggleNav = () => {
+    setIsNavActive(!isNavActive);
+  };
 
   useEffect(() => {
     const getRoomList = async () => {
@@ -67,32 +74,13 @@ function Home({ data }) {
 
   return (
     <>
-      <header>
-        <div className="user-details mt-sm-5">
-          {data && data.photoURL ? (
-            <img className="user-pfp" src={data.photoURL} alt="User Profile" />
-          ) : (
-            <img className="user-pfp" src={DefaultIcon} alt="Custom Image" />
-          )}
-          <label className="font-primary white-color font-size-subheader ms-2">
-            {data && data.displayName
-              ? data.displayName
-              : data && data.email && data.email.split("@")[0]}
-          </label>
-        </div>
-        <nav className="nav-bar">
-          <ul>
-            <li>
-              <Link to="/Home" className={isHomePage ? "active" : ""}>
-                Room List
-              </Link>
-            </li>
-            <li>
-              <a onClick={logout}>Logout</a>
-            </li>
-          </ul>
-        </nav>
-      </header>
+      <Header
+        data={data}
+        isHomePage={isHomePage}
+        isNavActive={isNavActive}
+        toggleNav={toggleNav}
+        logout={logout}
+      />
       <div className="home-layer">
         <label className="font-primary white-color font-size-subheader">
           Create a New Room

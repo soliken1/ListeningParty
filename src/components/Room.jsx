@@ -14,6 +14,7 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import youtube from "../api/youtube.js";
+import Header from "./Header";
 
 function Room({ data }) {
   const { session_id } = useParams();
@@ -25,6 +26,12 @@ function Room({ data }) {
   const [searchResults, setSearchResults] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [visibility, setVisibility] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [isNavActive, setIsNavActive] = useState(false);
+
+  const toggleNav = () => {
+    setIsNavActive(!isNavActive);
+  };
 
   const searchSong = async () => {
     try {
@@ -40,7 +47,12 @@ function Room({ data }) {
         setSearchResults(null);
       }
     } catch (error) {
-      console.error("Error finding song: ", error);
+      if (error.request.status == 403) {
+        console.error("Error finding song: ", error.request.response);
+        setErrorMessage("Youtube Quota Reached :( Come Back Tomorrow!");
+      } else {
+        console.error("Error finding song: ", error);
+      }
     }
   };
 
@@ -124,32 +136,13 @@ function Room({ data }) {
 
   return (
     <>
-      <header>
-        <div className="user-details mt-sm-5">
-          {data && data.photoURL ? (
-            <img className="user-pfp" src={data.photoURL} alt="User Profile" />
-          ) : (
-            <img className="user-pfp" src={DefaultIcon} alt="Custom Image" />
-          )}
-          <label className="font-primary white-color font-size-subheader ms-2">
-            {data && data.displayName
-              ? data.displayName
-              : data && data.email && data.email.split("@")[0]}
-          </label>
-        </div>
-        <nav className="nav-bar">
-          <ul>
-            <li>
-              <Link to="/Home" className={isHomePage ? "active" : ""}>
-                Room List
-              </Link>
-            </li>
-            <li>
-              <a onClick={logout}>Logout</a>
-            </li>
-          </ul>
-        </nav>
-      </header>
+      <Header
+        data={data}
+        isHomePage={isHomePage}
+        isNavActive={isNavActive}
+        toggleNav={toggleNav}
+        logout={logout}
+      />
       <div className="wrapper mt-4">
         <div className="side">
           <div className="session-body">
@@ -178,55 +171,60 @@ function Room({ data }) {
                 </div>
               ))}
           </div>
-          <input
-            type="text"
-            className="send-txt-box mt-1 me-1"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Message Here"
-          />
-          <button className="send-btn" onClick={onCreateMessage}>
-            Send
-          </button>
+          <div>
+            <input
+              type="text"
+              className="send-txt-box mt-1 me-1"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Message Here"
+            />
+            <button className="send-btn" onClick={onCreateMessage}>
+              Send
+            </button>
+          </div>
         </div>
         <div className="main">
           <div className="session-body">
             {selectedVideo && (
               <div className="current-playing">
-                <label className="white-color font-primary font-size-subheader">
+                <label className="white-color text-center font-primary font-size-subheader">
                   {selectedVideo.snippet.title}
                 </label>
-                <label className="white-color font-primary font-size-body mb-2">
+                <label className="white-color text-center font-primary font-size-body mb-2">
                   {selectedVideo.snippet.description}
                 </label>
                 <iframe
                   width="560"
                   height="315"
                   src={`https://www.youtube.com/embed/${selectedVideo.id.videoId}?autoplay=1`}
-                  frameborder="0"
+                  frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen
+                  allowFullScreen
                 ></iframe>
               </div>
             )}
           </div>
-          <div className="force-center">
-            <form onSubmit={onSubmit}>
-              <input
-                type="text"
-                className="send-txt-box mt-1 me-1"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search Song Here"
-              />
-              <button className="send-btn me-1" onClick={searchSong}>
-                Search
-              </button>
-              <button className="toggle-footer" onClick={handleHideFooter}>
-                {visibility ? "Hide Result" : "Show Result"}
-              </button>
-            </form>
-          </div>
+          {errorMessage && (
+            <label className="font-primary red-color font-size-body">
+              {errorMessage}
+            </label>
+          )}
+          <form onSubmit={onSubmit}>
+            <input
+              type="text"
+              className="send-txt-box mt-1 me-1"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search Song Here"
+            />
+            <button className="send-btn me-1" onClick={searchSong}>
+              Search
+            </button>
+            <button className="toggle-footer" onClick={handleHideFooter}>
+              {visibility ? "Hide Result" : "Show Result"}
+            </button>
+          </form>
         </div>
         {visibility && (
           <div className="footer">
