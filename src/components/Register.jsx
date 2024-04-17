@@ -14,6 +14,7 @@ function Register() {
   const register = async () => {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+      navigate("/Home");
     } catch (err) {
       setErrorMessage(null);
       if (err.code === "auth/email-already-in-use") {
