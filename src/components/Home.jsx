@@ -6,6 +6,7 @@ import { collection, serverTimestamp, addDoc } from "firebase/firestore";
 import { getDocs } from "firebase/firestore";
 import { useEffect } from "react";
 import Header from "./Header.jsx";
+import Transparent from "../assets/Transparent.png";
 
 function Home({ data }) {
   const navigate = useNavigate();
@@ -141,7 +142,10 @@ function Home({ data }) {
                     <img
                       className="card-thumbnail"
                       src={
-                        currentVideo.selectedVideo.snippet.thumbnails.high.url
+                        currentVideo?.selectedVideo.snippet.thumbnails.high.url
+                          ? currentVideo?.selectedVideo.snippet.thumbnails.high
+                              .url
+                          : Transparent
                       }
                     />
                   </div>
@@ -154,7 +158,7 @@ function Home({ data }) {
                     </label>
                     {currentVideo && (
                       <label className="text-center font-primary">
-                        {currentVideo.selectedVideo.snippet.title}
+                        {currentVideo.selectedVideo?.snippet.title}
                       </label>
                     )}
                     <label className="font-primary gray-color font-size-body">
